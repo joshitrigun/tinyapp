@@ -14,6 +14,7 @@
     <title>Document</title>
   </head>
   <body>
+    <%- include('partials/_header') %>
     <h3>Login</h3>
     <form action="/login" method="POST">
       <div>
@@ -33,6 +34,7 @@
           placeholder="Enter password"
           style="width: 300px"
         />
+
         <button type="submit" class="btn btn-primary">Login</button>
       </div>
     </form>

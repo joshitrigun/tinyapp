@@ -25,12 +25,12 @@ const urlDatabase = {
 };
 const users = {
   user1ID: {
-    id: "userRandomID",
-    email: "user@example.com",
+    id: "user1ID",
+    email: "user@gmail.com",
     password: "123456",
   },
   user2ID: {
-    id: "user2RandomID",
+    id: "user2ID",
     email: "user2@example.com",
     password: "123465",
   },
@@ -57,8 +57,8 @@ app.get("/", (req, res) => {
 //shows urls that belong to the user
 app.get("/urls", (req, res) => {
   const userID = req.cookies["userID"];
+  console.log(users[userID]);
   const templateVars = { urls: urlDatabase, user: users[userID] };
-
   res.render("urls_index", templateVars);
 });
 app.get("/urls/new", (req, res) => {
@@ -104,21 +104,43 @@ app.post("/urls/:id/delete", (req, res) => {
 });
 
 // login endpoint that responds with the new login
-
+app.get("/login", (req, res) => {
+  const templateVars = { user: req.cookies.username };
+  res.render("urls_login", templateVars);
+});
 
 //login to express server
+// app.post("/login", (req, res) => {
+//   const userID = req.cookies["userID"];
+//   if (userID) {
+//     res.redirect("/urls");
+//   } else {
+//     res.status(403).send("Invalid User");
+//   }
+// });
+
 app.post("/login", (req, res) => {
-  const userID = req.cookies["userID"];
-  if (userID) {
-    res.redirect("/urls");
-  } else {
-    res.status(403).send("Invalid User");
+  const email = req.body.email;
+  const password = req.body.password;
+  if (!email || !password) {
+    return res.status(400).send("email and password cannot be blank");
   }
+  const user = findUsersByEmail(email);
+  if (!user) {
+    return res
+      .status(403)
+      .send("User with such email does not exist in database");
+  }
+  if (user.password !== password) {
+    return res.status(403).send("password does not match");
+  }
+  res.cookie("userID", user.id);
+  res.redirect("/urls");
 });
 
 //logout
 app.post("/logout", (req, res) => {
-  res.clearCookie("username");
+  res.clearCookie("userID");
   res.redirect("/urls");
 });
 

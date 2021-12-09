@@ -24,10 +24,12 @@
           <button class="btn btn-primary type="submit">Logout</button>
         </form>
         <% } else { %>
-        <form method="POST" action="/login">
-          <input name="username" />
-          <button class="btn btn-primary type="submit">Login</button>
-        </form>
+        <a href="/login">
+            <button class="btn btn-primary type="submit">Login</button>
+        </a>
+         <a href="/register">
+            <button class="btn btn-primary type="submit">Register</button>
+        </a>
         <% } %>
       </div>
     </div>
