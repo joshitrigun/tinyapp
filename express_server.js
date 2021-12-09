@@ -15,7 +15,16 @@ const generateRandomString = function () {
     .replace(/[^a-z]+/g, "")
     .substr(0, 6);
 };
-
+// const urlDatabase = {
+//   b6UTxQ: {
+//     longURL: "https://www.tsn.ca",
+//     userID: "aJ48lW",
+//   },
+//   i3BoGr: {
+//     longURL: "https://www.google.ca",
+//     userID: "aJ48lW",
+//   },
+// };
 const urlDatabase = {
   bz24: "http://www.megtechsoft.com",
   bbox: "http://bboxtech.com",
