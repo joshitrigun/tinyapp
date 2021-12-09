@@ -23,6 +23,27 @@ const urlDatabase = {
   b2xVn2: "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com",
 };
+const users = {
+  user1ID: {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "123456",
+  },
+  user2ID: {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "123465",
+  },
+};
+const findUsersByEmail = (email) => {
+  for (const userID in users) {
+    const user = users[userID];
+    if (user.email === email) {
+      return user;
+    }
+  }
+  return null;
+};
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -35,7 +56,9 @@ app.get("/", (req, res) => {
 //urls index page -GET
 //shows urls that belong to the user
 app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase, username: req.cookies["username"] };
+  const userID = req.cookies["userID"];
+  const templateVars = { urls: urlDatabase, user: users[userID] };
+
   res.render("urls_index", templateVars);
 });
 app.get("/urls/new", (req, res) => {
@@ -80,13 +103,48 @@ app.post("/urls/:id/delete", (req, res) => {
   res.redirect("/urls");
 });
 
+// login endpoint that responds with the new login
+
+
 //login to express server
 app.post("/login", (req, res) => {
-  res.cookie("username", req.body.username);
-  res.redirect("/urls");
+  const userID = req.cookies["userID"];
+  if (userID) {
+    res.redirect("/urls");
+  } else {
+    res.status(403).send("Invalid User");
+  }
 });
+
+//logout
 app.post("/logout", (req, res) => {
   res.clearCookie("username");
+  res.redirect("/urls");
+});
+
+//registration
+app.get("/register", (req, res) => {
+  const templateVars = { user: req.cookies.username };
+  res.render("urls_registration", templateVars);
+});
+app.post("/register", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  if (!email || !password) {
+    return res.status(400).send("email and password cannot be blank");
+  }
+  const user = findUsersByEmail(email);
+  if (user) {
+    return res.status(400).send("a user already exists with that email");
+  }
+  const userID = generateRandomString();
+  users[userID] = {
+    userID,
+    email: req.body.email,
+    password: req.body.password,
+  };
+  console.log("users", users);
+  res.cookie("userID", userID);
   res.redirect("/urls");
 });
 
