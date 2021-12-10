@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-
+const { users, urlDatabase } = require("./userData");
 const authenticateUser = (email, password, db) => {
   const potentialUser = db[email];
   // Check if user exists, if not eject
@@ -14,7 +14,61 @@ const authenticateUser = (email, password, db) => {
   return { err: null, data: potentialUser };
 };
 
-module.exports = {
-  authenticateUser,
+const urlsForUser = function (id, urlDatabase) {
+  const result = {};
+  for (const url in urlDatabase) {
+    if (urlDatabase[url].userID === id) {
+      result[url] = urlDatabase[url];
+    }
+  }
+
+  return result;
 };
- 
+
+const generateRandomString = function () {
+  return Math.random()
+    .toString(36)
+    .replace(/[^a-z]+/g, "")
+    .substr(0, 6);
+};
+
+const findUsersByEmail = (email, users) => {
+  for (const userID in users) {
+    const user = users[userID];
+    if (user.email === email) {
+      return user;
+    }
+  }
+  return null;
+};
+const getUsersByEmail = (email, users) => {
+  for (const userID in users) {
+    const user = users[userID];
+    if (user.email === email) {
+      return user.id;
+    }
+  }
+  return null;
+};
+const fetchUsersURLsObj = (urlDatabase, id) => {
+  const urlsObject = {};
+  for (let shortURL in urlDatabase) {
+    if (urlDatabase[shortURL].userID == id) {
+      urlsObject[shortURL] = urlDatabase[shortURL].longURL;
+    }
+  }
+  return urlsObject;
+};
+const fetchUrlsDatabase = () => {
+  const urlsObject = {};
+  for (let urls in urlDatabase) {
+    urlsObject[urls] = urlDatabase[urls].longURL;
+  }
+  return urlsObject;
+};
+module.exports = {
+  urlsForUser,
+  generateRandomString,
+  findUsersByEmail,
+  getUsersByEmail,
+};
