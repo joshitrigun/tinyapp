@@ -11,8 +11,10 @@ const authenticateUser = (email, password, db) => {
   if (!passwordMatching) {
     return { err: "Password not matching", data: null };
   }
-
   return { err: null, data: potentialUser };
 };
 
-module.exports = { authenticateUser };
+module.exports = {
+  authenticateUser,
+};
+ 

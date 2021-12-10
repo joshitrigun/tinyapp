@@ -33,7 +33,7 @@
           <tr>
           
             <td><a href="/u/<%= url %>"><%= url %></a></td>
-            <td><%= urls[url] %></a></td>
+            <td><%= urls[url].longURL %></a></td>
             <td>
               <form method="POST" action="<%= `/urls/${url}/delete` %>">
                 <button type="submit">Delete</button>
