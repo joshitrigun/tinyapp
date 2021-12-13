@@ -1,4 +1,4 @@
-TinyApp Project
+### TinyApp Project ###
 
 Thinking about sharing your business website / e-commerce application with clients, but your link are too long?
 Don't let that stop you anymore?
@@ -7,7 +7,7 @@ tinyapp is a full stack application built on Node and Express to help users crea
 Time is running, so save your time and your users time on having to enter long url's.
 
 
-###Dependencies
+### Dependencies
 Node.js
 Express
 EJS
@@ -15,7 +15,7 @@ bcrypt
 body-parser
 cookie-session
 
-###Getting Started###
+### Getting Started###
 Install all dependencies (using the npm install command).
 Run the development web server using the node express_server.js command.
 Go to localhost:8000 on your browser, enjoy!
