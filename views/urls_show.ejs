@@ -23,8 +23,10 @@
           <!-- <a href="/u/<%= shortURL %>"><%= shortURL %></a> -->
           Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a>
         </p>
+      
         <form method="POST" action="<%= `/urls/${shortURL}` %>">
           <label>Update new url</label>
+
           <input type="text" name="longURL" />
           <button type="submit">Edit</button>
         </form>

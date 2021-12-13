@@ -8,6 +8,8 @@ const {
   urlsForUser,
   generateRandomString,
   findUsersByEmail,
+  fetchUsersURLsObj,
+  fetchUrlsDatabase,
 } = require("./helpers/userHelpers");
 const { users, urlDatabase } = require("./helpers/userData");
 
@@ -92,25 +94,25 @@ app.post("/logout", (req, res) => {
 // redirecting - GET
 // redirects to the long (actual) url
 app.get("/u/:shortURL", (req, res) => {
-  let tempID = req.session.user_id;
-  let urlsObject;
-  if (tempID) {
-    urlsObject = fetchUsersURLsObj(urlDatabase, tempID);
-  } else {
-    urlsObject = fetchUrlsDatabase(urlDatabase);
-  }
+  // let tempID = req.session.user_id;
+  // let urlsObject;
+  // if (tempID) {
+  //   urlsObject = fetchUsersURLsObj(urlDatabase, tempID);
+  // } else {
+  //   urlsObject = fetchUrlsDatabase(urlDatabase);
+  // }
   const longURL = urlDatabase[req.params.shortURL].longURL;
 
-  console.log("longURL", longURL);
-
-  console.log(urlsObject);
+  // console.log("longURL", longURL);
+  // console.log(urlDatabase);
+  // console.log(urlsObject);
   res.redirect(longURL);
 });
 
 // new url creation - POST
 // adds new url to database, redirects to short url page
 app.post("/urls/new", (req, res) => {
-  console.log("I am here");
+  // console.log("I am here");
   const userID = req.session.user_id;
   if (userID === undefined) {
     return res.redirect("/login");
@@ -154,18 +156,11 @@ app.get("/", (req, res) => {
 
 app.get("/urls", (req, res) => {
   const userID = req.session.user_id;
-  //let urlsObject = {};
-  // if (userID != undefined) {
-  //   urlsObject = fetchUsersURLsObj(urlDatabase, userID);
-  // } else {
-  //   urlsObject = fetchUrlsDatabase(urlDatabase);
-  // }
   const userUrls = urlsForUser(userID, urlDatabase);
-
+  console.log("userUrls", userUrls);
   const templateVars = {
     urls: userUrls,
     user: users[userID],
-    // user_id: req.cookies.user_id,
   };
   if (!userID) {
     res.statusCode = 401;
@@ -175,17 +170,6 @@ app.get("/urls", (req, res) => {
 // new url creation page - GET
 // validates if the user is logged in before displaying page
 app.get("/urls/new", (req, res) => {
-  // // console.log("userID", req.cookies.userID);
-  // const longURL = req.body.longURL;
-  // res.cookie("longURL", longURL);
-  // const userID = req.cookies["user_id"];
-  // if (userID === undefined) {
-  //   return res.redirect("/login");
-  // }
-  // const templateVars = {
-  //   user_id: req.cookies.user_id,
-  //   longURL: req.body.longURL,
-  // };
   const userId = req.session.user_id;
   const user = users[userId];
   if (!userId) {
@@ -205,21 +189,19 @@ app.get("/urls/:shortURL", (req, res) => {
   //const userID = req.cookies["user_id"];
   const userId = req.session.user_id;
   console.log(userId);
+  if (url.userID === userId) {
+    const user = users[userId];
+    const templateVars = {
+      shortURL,
+      url,
+      user: user,
+      longURL: url.longURL,
+    };
 
-  const user = users[userId];
-  const templateVars = {
-    shortURL,
-    url,
-    user: user,
-    longURL: url.longURL,
-  };
-  // const templateVars = {
-  //   shortURL,
-  //   url,
-  //   user_id: req.cookies.user_id,
-  //   longURL: req.cookies.longURL,
-  // };
-  res.render("urls_show", templateVars);
+    res.render("urls_show", templateVars);
+  } else {
+    res.send("You dont have access to this route");
+  }
 });
 
 app.get("/urls/longURL", (req, res) => {

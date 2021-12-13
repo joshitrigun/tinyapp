@@ -66,9 +66,12 @@ const fetchUrlsDatabase = () => {
   }
   return urlsObject;
 };
+
 module.exports = {
   urlsForUser,
   generateRandomString,
   findUsersByEmail,
   getUsersByEmail,
+  fetchUsersURLsObj,
+  fetchUrlsDatabase,
 };
