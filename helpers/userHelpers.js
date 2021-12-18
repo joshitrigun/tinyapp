@@ -32,7 +32,8 @@ const generateRandomString = function () {
     .substr(0, 6);
 };
 
-const findUsersByEmail = (email, users) => {
+//this function is added to pass test requirement
+const findUsersByEmail = (email) => {
   for (const userID in users) {
     const user = users[userID];
     if (user.email === email) {
@@ -41,15 +42,7 @@ const findUsersByEmail = (email, users) => {
   }
   return null;
 };
-const getUsersByEmail = (email, users) => {
-  for (const userID in users) {
-    const user = users[userID];
-    if (user.email === email) {
-      return user.id;
-    }
-  }
-  return null;
-};
+
 const fetchUsersURLsObj = (urlDatabase, id) => {
   const urlsObject = {};
   for (let shortURL in urlDatabase) {
@@ -66,7 +59,15 @@ const fetchUrlsDatabase = () => {
   }
   return urlsObject;
 };
-
+const getUsersByEmail = (email, users) => {
+  for (const userID in users) {
+    const user = users[userID];
+    if (user.email === email) {
+      return user.id;
+    }
+  }
+  return null;
+};
 module.exports = {
   urlsForUser,
   generateRandomString,

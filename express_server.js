@@ -69,7 +69,7 @@ app.post("/login", (req, res) => {
     return res.status(400).send("email and password cannot be blank");
   }
   //check if user exists, if not eject
-  const user = findUsersByEmail(email, users);
+  const user = findUsersByEmail(email);
   if (!user) {
     return res
       .status(403)
