@@ -59,6 +59,7 @@ const fetchUrlsDatabase = () => {
   }
   return urlsObject;
 };
+//this function specifically for test purpose
 const getUsersByEmail = (email, users) => {
   for (const userID in users) {
     const user = users[userID];
