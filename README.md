@@ -1,9 +1,11 @@
 ### TinyApp Project ###
+![image](https://user-images.githubusercontent.com/15637663/164288583-40ccab22-45f1-45aa-b702-9ac84738ed8e.png)
+
 
 Thinking about sharing your business website / e-commerce application with clients, but your link are too long?
 Don't let that stop you anymore?
 
-tinyapp is a full stack application built on Node and Express to help users create short URLs.
+Tinyapp is a full stack application built on Node and Express to help users create short URLs.
 Time is running, so save your time and your users time on having to enter long url's.
 
 
